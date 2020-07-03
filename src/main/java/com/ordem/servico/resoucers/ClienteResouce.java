@@ -3,9 +3,10 @@ package com.ordem.servico.resoucers;
 import java.net.URI;
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -41,9 +42,8 @@ public class ClienteResouce {
 	}
 	
 	//criar cliente
-	@Transactional
 	@PostMapping
-	public ResponseEntity<Cliente> insert(@RequestBody Cliente cliente){
+	public ResponseEntity<Cliente> insert(@RequestBody @Valid Cliente cliente){
 		cliente = service.insert(cliente);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
 				.path("/{id}").buildAndExpand(cliente.getId()).toUri();
@@ -58,9 +58,8 @@ public class ClienteResouce {
 	}
 	
 	//atualizar cliente
-	@Transactional
 	@PutMapping(value = "/{id}")
-	public ResponseEntity<Cliente> update(@PathVariable Long id, @RequestBody Cliente cliente){
+	public ResponseEntity<Cliente> update(@PathVariable Long id,@RequestBody @Valid Cliente cliente){
 		cliente = service.update(id, cliente);
 		return ResponseEntity.ok().body(cliente);
 	}	

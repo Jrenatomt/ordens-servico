@@ -10,6 +10,9 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 import com.ordem.servico.domain.enums.StatusOrdemServico;
 
@@ -20,11 +23,16 @@ public class OrdemServico implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	
+	@NotBlank(message = "O campo descrição não pode ser vazio.")
 	private String descricao;
+	
+	@NotNull
 	private BigDecimal preco;
+	
 	private LocalDate dataAbertura;
 	private LocalDate dataFinalizacao;
-	
+	@ManyToOne
 	private Cliente cliente;
 	
 	@Enumerated(EnumType.STRING)
@@ -126,4 +134,11 @@ public class OrdemServico implements Serializable {
 			return false;
 		return true;
 	}
+	
+	public void finaliza() {
+		setStatus(StatusOrdemServico.FINALIZADA);
+		setDataFinalizacao(LocalDate.now());
+	}
+
 }
+
