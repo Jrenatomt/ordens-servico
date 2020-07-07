@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -22,6 +23,7 @@ public class OrdemServico implements Serializable {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id")
 	private Long id;
 	
 	@NotBlank(message = "O campo descrição não pode ser vazio.")
@@ -31,15 +33,16 @@ public class OrdemServico implements Serializable {
 	private BigDecimal preco;
 	
 	private LocalDate dataAbertura;
+	
 	private LocalDate dataFinalizacao;
+	
 	@ManyToOne
 	private Cliente cliente;
 	
 	@Enumerated(EnumType.STRING)
 	private StatusOrdemServico status;
 	
-	public OrdemServico() {
-		
+	public OrdemServico() {	
 	}
 
 	public OrdemServico(Long id, String descricao, BigDecimal preco, LocalDate dataAbertura, LocalDate dataFinalizacao,
